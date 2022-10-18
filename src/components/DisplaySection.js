@@ -68,6 +68,9 @@ const ResetButton = styled.button`
   text-align: center;
 
   color: #00474b;
+  :active {
+    background: #9fe8df;
+  }
 `;
 
 const AmountContainer = styled.div`
