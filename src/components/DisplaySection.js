@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { TipCalculatorContext } from '../contexts/TipCalculatorContext';
 
@@ -15,12 +15,30 @@ const DisplaySection = () => {
     setTipAmount,
   } = useContext(TipCalculatorContext);
 
+  useEffect(() => {
+    if (billAmount && guest && tipPrecent)
+      setTipAmount(billAmount * tipPrecent);
+    console.log(tipAmount);
+  }, [billAmount, guest, tipPrecent]);
+
   const handleClick = () => {
     setBillAmount(0);
     setGuest(0);
     setTipPrecent(0);
     setTipAmount(0);
   };
+
+  const shouldDisplay = () => {
+    if (billAmount && guest && tipPrecent && tipAmount) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const tipPerPerson = (+(billAmount * tipPrecent) / guest).toFixed(2);
+
+  const totalPerPerson = +(billAmount / guest).toFixed(2) + +tipPerPerson;
 
   return (
     <$DisplaySection>
@@ -30,14 +48,14 @@ const DisplaySection = () => {
             <Title>Tip Amount</Title>
             <PerPersonText>/ person</PerPersonText>
           </TextContainer>
-          <Number>{`$0.00`}</Number>
+          <Number>{shouldDisplay() ? `$${tipPerPerson}` : `$0.00`}</Number>
         </AmountContainer>
         <AmountContainer>
           <TextContainer>
             <Title>Total</Title>
             <PerPersonText>/ person</PerPersonText>
           </TextContainer>
-          <Number>{`$0.00`}</Number>
+          <Number>{shouldDisplay() ? `$${totalPerPerson}` : `$0.00`}</Number>
         </AmountContainer>
       </AmountGroup>
       <ResetButton onClick={handleClick}>RESET</ResetButton>

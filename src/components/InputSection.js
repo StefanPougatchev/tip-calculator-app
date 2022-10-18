@@ -2,6 +2,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { TipCalculatorContext } from '../contexts/TipCalculatorContext';
+import DollarSvg from '../assets/svgs/icon-dollar.svg';
 
 const InputSection = () => {
   const {
@@ -19,40 +20,80 @@ const InputSection = () => {
     e.preventDefault();
     setBillAmount(+e.target.value);
   };
+
+  const handleGuestAmountChange = (e) => {
+    e.preventDefault();
+    setGuest(+e.target.value);
+  };
+
+  const handleTipPrecentage = (num) => {
+    const tip = num / 100;
+    setTipPrecent(tip);
+  };
+
+  const handleCustomTip = (e) => {
+    e.preventDefault();
+    const tip = +e.target.value / 100;
+    setTipPrecent(tip);
+  };
+
+  const tipNumbers = [5, 10, 15, 25, 50];
+
   return (
     <$InputSection>
       <BillAmountSection>
         <Text>Bill</Text>
         <InputField
-          type='text'
-          placeholder={billAmount}
+          type='number'
+          placeholder='0'
+          onfocus="this.placeholder=''"
           value={billAmount}
-          onChange={(e) => handleBillAmountChange(e)}
+          onChange={(event) => handleBillAmountChange(event)}
         />
       </BillAmountSection>
       <SelectTipSection>
         <Text>Select Tip %</Text>
         <TipButtonSection>
-          <TipPrecentageButton>5%</TipPrecentageButton>
-          <TipPrecentageButton>10%</TipPrecentageButton>
-          <TipPrecentageButton>15%</TipPrecentageButton>
-          <TipPrecentageButton>25%</TipPrecentageButton>
-          <TipPrecentageButton>50%</TipPrecentageButton>
+          {tipNumbers.map((tip, idx) => {
+            return (
+              <TipPrecentageButton
+                key={`${tip}-${idx}`}
+                onClick={() => handleTipPrecentage(tip)}
+              >{`${tip}%`}</TipPrecentageButton>
+            );
+          })}
           <InputPrecentage
             type='text'
             placeholder='Custom'
+            defaultValue={tipPrecent}
+            onChange={(e) => handleCustomTip(e)}
           />
         </TipButtonSection>
       </SelectTipSection>
+      <SelectGuestSection>
+        <Text>Number of People</Text>
+        <InputField
+          type='number'
+          placeholder='0'
+          value={guest}
+          onChange={(e) => handleGuestAmountChange(e)}
+        />
+      </SelectGuestSection>
     </$InputSection>
   );
 };
+
+const SelectGuestSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 const SelectTipSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 40px;
+  margin-bottom: 38px;
 `;
 
 const TipButtonSection = styled.div`
@@ -82,6 +123,8 @@ const Text = styled.p`
 `;
 
 const InputField = styled.input`
+  height: 48px;
+  padding: 0px;
   background: #f3f9fa;
   width: 379px;
   border: none;
@@ -99,6 +142,14 @@ const InputField = styled.input`
 
   :hover {
     cursor: pointer;
+    border: 2px solid #26c2ae;
+  }
+
+  :focus {
+    caret-color: #26c2ae;
+    &::placeholder {
+      color: transparent;
+    }
   }
 `;
 
@@ -131,6 +182,7 @@ const TipPrecentageButton = styled.button`
 `;
 
 const InputPrecentage = styled.input`
+  cursor: pointer;
   height: 48px;
   width: 117px;
   border: none;
@@ -149,12 +201,14 @@ const InputPrecentage = styled.input`
   color: #547878;
 
   padding: 0px;
-
+  :hover {
+    border: 2px solid #26c2ae;
+  }
   :focus {
     text-align: right;
     color: #00474b;
     caret-color: #26c2ae;
-    border: none;
+    border: 2px solid #26c2ae;
     &::placeholder {
       color: transparent;
     }
@@ -164,10 +218,10 @@ const $InputSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 1px solid black;
   width: 379px;
   height: 388px;
   border-radius: 15px;
   margin-right: 48px;
 `;
+
 export default InputSection;

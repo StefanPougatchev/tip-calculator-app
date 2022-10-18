@@ -3,10 +3,10 @@ import React, { useState, createContext } from 'react';
 export const TipCalculatorContext = createContext();
 
 const TipCalculatorContextProvider = (props) => {
-  const [billAmount, setBillAmount] = useState(0.0);
+  const [billAmount, setBillAmount] = useState(0);
   const [guest, setGuest] = useState(0);
   const [tipPrecent, setTipPrecent] = useState(0);
-  const [tipAmount, setTipAmount] = useState(5.0);
+  const [tipAmount, setTipAmount] = useState(0);
 
   return (
     <TipCalculatorContext.Provider
