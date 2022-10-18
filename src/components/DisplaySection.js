@@ -57,7 +57,9 @@ const DisplaySection = () => {
             <Title>Total</Title>
             <PerPersonText>/ person</PerPersonText>
           </TextContainer>
-          <Number>{shouldDisplay() ? `$${totalPerPerson}` : `$0.00`}</Number>
+          <Number>
+            {shouldDisplay() ? `$${totalPerPerson.toFixed(2)}` : `$0.00`}
+          </Number>
         </AmountContainer>
       </AmountGroup>
       <ResetButton onClick={handleClick}>RESET</ResetButton>
