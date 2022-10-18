@@ -18,12 +18,14 @@ const DisplaySection = () => {
   useEffect(() => {
     if (billAmount && guest && tipPrecent)
       setTipAmount(billAmount * tipPrecent);
-    console.log(tipAmount);
-  }, [billAmount, guest, tipPrecent]);
+  }, [billAmount, guest, tipPrecent, tipAmount, setTipAmount]);
 
   const handleClick = () => {
-    setBillAmount(0);
-    setGuest(0);
+    Array.from(document.querySelectorAll('input')).forEach(
+      (input) => (input.value = '')
+    );
+    setBillAmount('');
+    setGuest('');
     setTipPrecent(0);
     setTipAmount(0);
   };

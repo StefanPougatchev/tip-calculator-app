@@ -12,8 +12,6 @@ const InputSection = () => {
     setGuest,
     tipPrecent,
     setTipPrecent,
-    tipAmount,
-    setTipAmount,
   } = useContext(TipCalculatorContext);
 
   const handleBillAmountChange = (e) => {
@@ -65,7 +63,7 @@ const InputSection = () => {
           <InputPrecentage
             type='text'
             placeholder='Custom'
-            defaultValue={tipPrecent}
+            onfocus="this.placeholder=''"
             onChange={(e) => handleCustomTip(e)}
           />
         </TipButtonSection>
